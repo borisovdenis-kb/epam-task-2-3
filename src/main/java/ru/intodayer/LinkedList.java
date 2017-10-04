@@ -1,10 +1,11 @@
 package ru.intodayer;
 
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class LinkedList<T>{
+public class LinkedList<T> implements Iterable<T> {
     private Node<T> first;
     private Node<T> last;
     private int size;
@@ -137,10 +138,9 @@ public class LinkedList<T>{
 //        return array.toArray();
 //    }
 
-//    @Override
-//    public Iterator<String> iterator() {
-//        return new LinkedListIterator(this);
-//    }
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
 
     @Override
     public String toString() {
@@ -157,5 +157,30 @@ public class LinkedList<T>{
             }
         }
         return stringBuilder.toString();
+    }
+
+    class LinkedListIterator implements Iterator<T> {
+        private Node<T> current;
+
+        public LinkedListIterator() {
+            this.current = getFirst();
+        }
+
+        public boolean hasNext() {
+            return !(current == null);
+        }
+
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Node<T> tmp = current;
+            current = current.next;
+            return tmp.getData();
+        }
+
+        public void remove() {
+            delete(current.getData());
+        }
     }
 }

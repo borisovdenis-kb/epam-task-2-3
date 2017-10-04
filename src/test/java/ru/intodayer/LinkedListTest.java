@@ -30,8 +30,37 @@ class LinkedListTest {
         linkedList.addFirst("C");
         linkedList.addFirst("D");
         linkedList.clear();
-        assertEquals(linkedList.getFirst(), null);
-        assertEquals(linkedList.getLast(), null);
+        assertEquals(null, linkedList.getFirst());
+        assertEquals(null, linkedList.getLast());
+    }
+
+    @Test
+    void testDifferentTypes() {
+        /* test #1: with String */
+        LinkedList<String> stringList = new LinkedList<String>();
+        stringList.addFirst("A");
+        stringList.addLast("B");
+        stringList.addBefore("B", "C");
+        assertEquals("A", stringList.getFirst().getData());
+
+        stringList.deleteFirst();
+        stringList.deleteLast();
+        assertEquals("C", stringList.delete("C").getData());
+        assertEquals(null, stringList.getFirst());
+        assertEquals(null, stringList.getLast());
+
+        /* test #2: with Integer */
+        LinkedList<Integer> integerList = new LinkedList<Integer>();
+        integerList.addFirst(1);
+        integerList.addLast(2);
+        integerList.addBefore(2, 3);
+        assertEquals(new Integer(1), integerList.getFirst().getData());
+
+        integerList.deleteFirst();
+        integerList.deleteLast();
+        assertEquals(new Integer(3), integerList.delete(3).getData());
+        assertEquals(null, integerList.getFirst());
+        assertEquals(null, integerList.getLast());
     }
 
 //    @Test
@@ -54,21 +83,21 @@ class LinkedListTest {
         One.addFirst("Gimli");
         One.addFirst("Legolas");
 
-        /* test1 */
+        // test #1
         assertEquals("Legolas", One.deleteFirst().getData());
         assertEquals("Gimli", One.getFirst().getData());
 
-        /* test2 */
+        // test #2
         checkLinks(One);
 
-        /* test3 */
+        // test #3
         while (!One.isEmpty()) {
             One.deleteFirst();
         }
         assertEquals(null, One.getFirst());
         assertEquals(null, One.getLast());
 
-        /* test4: lack of NullPointerException */
+        // test4: lack of NullPointerException
         LinkedList<String> Two = new LinkedList<String>();
         Two.addFirst("Frodo");
         Two.deleteFirst();
@@ -83,21 +112,21 @@ class LinkedListTest {
         One.addFirst("Gimli");
         One.addFirst("Legolas");
 
-        /* test1 */
+        // test #1
         assertEquals("Legolas", One.deleteLast().getData());
         assertEquals("Gimli", One.getLast().getData());
 
-        /* test2 */
+        // test #2
         checkLinks(One);
 
-        /* test3 */
+        // test #3
         while (!One.isEmpty()) {
             One.deleteLast();
         }
-        assertEquals(One.getFirst(), null);
-        assertEquals(One.getLast(), null);
+        assertEquals(null, One.getFirst());
+        assertEquals(null, One.getLast());
 
-        /* test4: lack of NullPointerException */
+        // test4: lack of NullPointerException
         LinkedList<String> Two = new LinkedList<String>();
         Two.addFirst("Frodo");
         Two.deleteLast();
@@ -111,56 +140,45 @@ class LinkedListTest {
         linkedList.addFirst("Iron Man");
         linkedList.addFirst("Spider-Man");
 
-        /* test1: delete from the "middle" */
+        // test #1: delete from the "middle"
         assertEquals("Hulk", linkedList.delete("Hulk").getData());
 
-        /* test2: checking of next/prev links */
+        // test #2: checking of next/prev links
         checkLinks(linkedList);
 
-        /* test3: delete while list is not empty */
+        // test #3: delete while list is not empty
         while (!linkedList.isEmpty()) {
             linkedList.delete(linkedList.getFirst().getData());
         }
-        assertEquals(linkedList.getFirst(), null);
-        assertEquals(linkedList.getLast(), null);
+        assertEquals(null, linkedList.getFirst());
+        assertEquals(null, linkedList.getLast());
     }
 
     @Test
     void addFirst() {
-        LinkedList<String> linkedList = new LinkedList<String>();
-        linkedList.addFirst("Thor");
-        linkedList.addFirst("Hulk");
-        linkedList.addFirst("Iron Man");
-        linkedList.addFirst("Spider-Man");
-
-        /* test1 */
-        assertEquals("Spider-man", linkedList.getFirst().getData());
+        LinkedList<String> listOne = new LinkedList<String>();
+        listOne.addFirst("Thor");
+        listOne.addFirst("Hulk");
+        listOne.addFirst("Iron Man");
+        listOne.addFirst("Spider-Man");
+        assertEquals("Spider-man", listOne.getFirst().getData());
     }
 
     @Test
     void addBefore() {
-        String expected[] = {"Iron Man", "Spider Man", "Hulk", "Thor"};
         LinkedList<String> linkedList = new LinkedList<String>();
         linkedList.addFirst("Thor");
 
-        /* test1: with 1 node [Thor]*/
+        // test #1: with 1 node [Thor]
         linkedList.addBefore("Thor", "Hulk");
         assertEquals("Hulk", linkedList.getFirst().getData());
 
         linkedList.clear();
 
-        /* test2: adds the same element as already existed */
+        // test #2: adds the same element as already existed
         linkedList.addBefore("Tanos", "Tanos");
         linkedList.addBefore("Tanos", "Tanos");
         assertEquals("Tanos", linkedList.getFirst().getData());
-        checkLinks(linkedList);
-
-
-        /* test3: add in the "middle" [Iron Man][Hulk][Thor]*/
-//        linkedList.addBefore("Hulk","Spider-Man");
-//        assertArrayEquals(expected, linkedList.toArray());
-
-        /* test4: checking of next/prev links */
         checkLinks(linkedList);
     }
 

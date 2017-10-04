@@ -1,6 +1,7 @@
 package ru.intodayer;
 
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class App {
@@ -12,7 +13,11 @@ public class App {
         while (true) {
             System.out.print("1-add first, 2-add last, 3-add before, 4-delete first, " +
                             "5-delete last, 6-delete, 7-clear: ");
-            switch (in.nextInt()) {
+
+            int decision = in.nextInt();
+            if (decision == 100500) break;
+
+            switch (decision) {
             case 1:
                 System.out.print(": ");
                 linkedList.addFirst(in.next());
@@ -42,6 +47,12 @@ public class App {
                 linkedList.clear();
             }
             System.out.println(linkedList);
+        }
+
+        Iterator<String> itr = linkedList.iterator();
+
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
         }
     }
 }

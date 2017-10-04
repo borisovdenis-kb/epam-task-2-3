@@ -2,6 +2,7 @@ package ru.intodayer;
 
 
 //import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
@@ -132,17 +133,21 @@ public class LinkedList<T> implements Iterable<T> {
         last = null;
     }
 
-//    public T[] toArray() {
-//        ArrayList<T> array = new ArrayList<T>();
-//        int i = 0;
-//        for (Node x = first; x != null; x = x.next) {
-//            array.add((T) x.getData());
-//        }
-//        return array.toArray();
-//    }
+    public ArrayList<T> toArray() {
+        ArrayList<T> array = new ArrayList<T>();
+        int i = 0;
+        for (Node<T> x = first; x != null; x = x.next) {
+            array.add(x.getData());
+        }
+        return array;
+    }
 
     public Iterator<T> iterator() {
         return new LinkedListIterator();
+    }
+
+    public Iterator<Node<T>> firstIterator() {
+        return new FirstIterator();
     }
 
     @Override
@@ -162,11 +167,10 @@ public class LinkedList<T> implements Iterable<T> {
         return stringBuilder.toString();
     }
 
-    class LinkedListIterator implements Iterator<T> {
+    class FirstIterator implements Iterator<Node<T>> {
         private Node<T> current;
-//        private Node<T> tmp;
 
-        public LinkedListIterator() {
+        public FirstIterator() {
             this.current = getFirst();
         }
 
@@ -174,20 +178,46 @@ public class LinkedList<T> implements Iterable<T> {
             return !(current == null);
         }
 
-        public T next() {
+        public Node<T> next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
             Node<T> tmp = current;
             current = current.next;
-            if (condition.test(current.getData())) {
-                next();
+            return tmp;
+        }
+    }
+
+    class LinkedListIterator implements Iterator<T> {
+        private Iterator<Node<T>> itr;
+        private Node<T> tmp;
+
+        public LinkedListIterator() {
+            this.itr = firstIterator();
+        }
+
+        public boolean hasNext() {
+            if (tmp != null && tmp.next != null && tmp.next.next == null) {
+                if (condition.test(tmp.next.getData())) {
+                    return false;
+                }
+            }
+            return itr.hasNext();
+        }
+
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Node<T> tmp = itr.next();
+            while (condition.test(tmp.getData())) {
+                tmp = itr.next();
             }
             return tmp.getData();
         }
 
-        public void remove() {
-            delete(current.getData()); // TODO: Тут можно оптимизировать. Т.к. мы уже нашли нужные элемент!! и его можно удалить.
-        }
+//        public void remove() {
+//            delete(array.get(index)); // TODO: Тут можно оптимизировать. Т.к. мы уже нашли нужные элемент!! и его можно удалить.
+//        }
     }
 }

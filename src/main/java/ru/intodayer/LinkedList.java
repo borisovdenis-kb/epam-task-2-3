@@ -211,9 +211,5 @@ public class LinkedList<T> implements Iterable<T> {
             }
             return tmp.getData();
         }
-
-//        public void remove() {
-//            delete(array.get(index)); // TODO: Тут можно оптимизировать. Т.к. мы уже нашли нужные элемент!! и его можно удалить.
-//        }
     }
 }

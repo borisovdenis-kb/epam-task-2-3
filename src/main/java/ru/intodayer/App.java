@@ -9,7 +9,6 @@ public class App {
         Predicate<Integer> condition = (x) -> {
             Integer[] array = {1, 5, 9};
             List<Integer> notAllowed = Arrays.asList(array);
-
             return notAllowed.contains(x);
         };
         LinkedList<Integer> linkedList = new LinkedList<>(condition);
@@ -17,7 +16,7 @@ public class App {
 
         while (true) {
             System.out.print("1-add first, 2-add last, 3-add before, 4-delete first, " +
-                            "5-delete last, 6-delete, 7-clear: ");
+                            "5-delete last, 6-delete, 7-clear, 8-iterator: ");
 
             int decision = in.nextInt();
             if (decision == 100500) break;
@@ -50,14 +49,18 @@ public class App {
                 break;
             case 7:
                 linkedList.clear();
+            case 8:
+                Iterator<Integer> itr = linkedList.iterator();
+                while (itr.hasNext()) {
+                    System.out.println(itr.next());
+                }
+                break;
+            default:
+                break;
             }
             System.out.println(linkedList);
         }
 
-        Iterator<Integer> itr = linkedList.iterator();
 
-        while (itr.hasNext()) {
-            System.out.println(itr.next());
-        }
     }
 }

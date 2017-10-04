@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String args[]) {
-        LinkedList<String> linkedList = new LinkedList<String>();
+        LinkedList<Integer> linkedList = new LinkedList<Integer>((x) -> (x > 5));
         Scanner in = new Scanner(System.in);
 
 
@@ -20,17 +20,17 @@ public class App {
             switch (decision) {
             case 1:
                 System.out.print(": ");
-                linkedList.addFirst(in.next());
+                linkedList.addFirst(in.nextInt());
                 break;
             case 2:
                 System.out.print(": ");
-                linkedList.addLast(in.next());
+                linkedList.addLast(in.nextInt());
                 break;
             case 3:
                 System.out.print(": ");
-                String key = in.next();
+                Integer key = in.nextInt();
                 System.out.print(": ");
-                String data = in.next();
+                Integer data = in.nextInt();
                 linkedList.addBefore(key, data);
                 break;
             case 4:
@@ -41,7 +41,7 @@ public class App {
                 break;
             case 6:
                 System.out.print(": ");
-                linkedList.delete(in.next());
+                linkedList.delete(in.nextInt());
                 break;
             case 7:
                 linkedList.clear();
@@ -49,7 +49,7 @@ public class App {
             System.out.println(linkedList);
         }
 
-        Iterator<String> itr = linkedList.iterator();
+        Iterator<Integer> itr = linkedList.iterator();
 
         while (itr.hasNext()) {
             System.out.println(itr.next());

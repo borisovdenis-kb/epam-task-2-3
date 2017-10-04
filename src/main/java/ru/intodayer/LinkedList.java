@@ -4,13 +4,16 @@ package ru.intodayer;
 //import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 public class LinkedList<T> implements Iterable<T> {
     private Node<T> first;
     private Node<T> last;
+    private Predicate<T> condition;
     private int size;
 
-    public LinkedList() {
+    public LinkedList(Predicate<T> condition) {
+        this.condition = condition;
     }
 
     public boolean isEmpty() {
@@ -161,6 +164,7 @@ public class LinkedList<T> implements Iterable<T> {
 
     class LinkedListIterator implements Iterator<T> {
         private Node<T> current;
+//        private Node<T> tmp;
 
         public LinkedListIterator() {
             this.current = getFirst();
@@ -176,11 +180,14 @@ public class LinkedList<T> implements Iterable<T> {
             }
             Node<T> tmp = current;
             current = current.next;
+            if (condition.test(current.getData())) {
+                next();
+            }
             return tmp.getData();
         }
 
         public void remove() {
-            delete(current.getData());
+            delete(current.getData()); // TODO: Тут можно оптимизировать. Т.к. мы уже нашли нужные элемент!! и его можно удалить.
         }
     }
 }

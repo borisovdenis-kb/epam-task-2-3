@@ -1,9 +1,12 @@
 package ru.intodayer;
 
 
-public class LinkedList {
-    private Node first;
-    private Node last;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class LinkedList<T>{
+    private Node<T> first;
+    private Node<T> last;
     private int size;
 
     public LinkedList() {
@@ -13,44 +16,49 @@ public class LinkedList {
         return first == null;
     }
 
-    public Node getFirst() {
+    public Node<T> getFirst() {
         return first;
     }
 
-    public Node getLast() {
+    public Node<T> getLast() {
         return last;
     }
 
-    public void addFirst(String data) {
-        Node newNode = new Node(data);
+    public void addFirst(T data) {
+        Node<T> newNode = new Node<T>(data);
         if (first == null) {
             last = newNode;
             first = newNode;
+            newNode.next = null;
+            newNode.prev = null;
         } else {
             first.prev = newNode;
             newNode.next = first;
             newNode.prev = null;
             first = newNode;
-            size++;
         }
+        size++;
     }
 
-    public void addLast(String data) {
-        Node newNode = new Node(data);
+    public void addLast(T data) {
+        Node<T> newNode = new Node<T>(data);
         if (last == null) {
             last = newNode;
             first = newNode;
+            newNode.next = null;
+            newNode.prev = null;
+        } else {
+            last.next = newNode;
+            newNode.prev = last;
+            newNode.next = null;
+            last = newNode;
         }
-        last.next = newNode;
-        newNode.prev = last;
-        newNode.next = null;
-        last = newNode;
         size++;
     }
-    
-    public void addBefore(String key, String data) {
-        Node newNode = new Node(data);
-        Node current = first;
+
+    public void addBefore(T key, T data) {
+        Node<T> newNode = new Node<T>(data);
+        Node<T> current = first;
         while (current != null && !current.getData().equals(key)) {
             current = current.next;
         }
@@ -67,8 +75,8 @@ public class LinkedList {
         size++;
     }
 
-    public Node deleteFirst() {
-        Node tmp = first;
+    public Node<T> deleteFirst() {
+        Node<T> tmp = first;
         if (last == first) {
             last = null;
             first = null;
@@ -80,8 +88,8 @@ public class LinkedList {
         return tmp;
     }
 
-    public Node deleteLast() {
-        Node tmp = last;
+    public Node<T> deleteLast() {
+        Node<T> tmp = last;
         if (last == first) {
             last = null;
             first = null;
@@ -93,8 +101,8 @@ public class LinkedList {
         return tmp;
     }
 
-    public Node delete(String key) {
-        for (Node x = first; x != null; x = x.next) {
+    public Node<T> delete(T key) {
+        for (Node<T> x = first; x != null; x = x.next) {
             if (x.getData().equals(key)) {
                 if (x == first) {
                     return deleteFirst();
@@ -120,14 +128,19 @@ public class LinkedList {
         last = null;
     }
 
-    public String[] toArray() {
-        String array[] = new String[size];
-        int i = 0;
-        for (Node x = first; x != null; x = x.next) {
-            array[i++] = x.getData();
-        }
-        return array;
-    }
+//    public T[] toArray() {
+//        ArrayList<T> array = new ArrayList<T>();
+//        int i = 0;
+//        for (Node x = first; x != null; x = x.next) {
+//            array.add((T) x.getData());
+//        }
+//        return array.toArray();
+//    }
+
+//    @Override
+//    public Iterator<String> iterator() {
+//        return new LinkedListIterator(this);
+//    }
 
     @Override
     public String toString() {
@@ -135,8 +148,8 @@ public class LinkedList {
             return "[]";
         }
         StringBuilder stringBuilder = new StringBuilder("null<--");
-        for (Node x = first; x != null; x = x.next) {
-            stringBuilder.append("[" + x.getData() + "]");
+        for (Node<T> x = first; x != null; x = x.next) {
+            stringBuilder.append("[" + x.getData().toString() + "]");
             if (x.next == null) {
                 stringBuilder.append("-->null");
             } else {

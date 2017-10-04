@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String args[]) {
-        LinkedList linkedList = new LinkedList();
+        LinkedList<String> linkedList = new LinkedList<String>();
         Scanner in = new Scanner(System.in);
 
 

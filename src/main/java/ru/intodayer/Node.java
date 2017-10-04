@@ -1,21 +1,21 @@
 package ru.intodayer;
 
 
-public class Node {
-    private String data;
-    public Node next;
-    public Node prev;
+public class Node<T> {
+    private T data;
+    public Node<T> next;
+    public Node<T> prev;
 
-    public Node(String data) {
+    public Node(T data) {
         this.data = data;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
     @Override
     public String toString() {
-        return data;
+        return data.toString();
     }
 }

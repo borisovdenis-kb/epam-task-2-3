@@ -1,14 +1,19 @@
 package ru.intodayer;
 
 
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class App {
     public static void main(String args[]) {
-        LinkedList<Integer> linkedList = new LinkedList<Integer>((x) -> (x > 5));
-        Scanner in = new Scanner(System.in);
+        Predicate<Integer> condition = (x) -> {
+            Integer[] array = {1, 5, 9};
+            List<Integer> notAllowed = Arrays.asList(array);
 
+            return notAllowed.contains(x);
+        };
+        LinkedList<Integer> linkedList = new LinkedList<>(condition);
+        Scanner in = new Scanner(System.in);
 
         while (true) {
             System.out.print("1-add first, 2-add last, 3-add before, 4-delete first, " +

@@ -1,7 +1,5 @@
 package ru.intodayer;
 
-
-//import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -197,15 +195,6 @@ public class LinkedList<T> implements Iterable<T> {
         }
 
         public boolean hasNext() {
-//            if (tmp != null && tmp.next == null) {
-//                if (condition.test(tmp.getData())) {
-//                    return false;
-//                }
-//            } else if (tmp != null && tmp.next.next == null) {
-//                if (condition.test(tmp.next.getData())) {
-//                    return false;
-//                }
-//            }
             return itr.hasNext();
         }
 

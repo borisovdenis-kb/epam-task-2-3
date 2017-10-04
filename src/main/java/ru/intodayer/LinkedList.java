@@ -1,7 +1,5 @@
 package ru.intodayer;
 
-import ru.intodayer.Node;
-
 
 public class LinkedList {
     private Node first;
@@ -49,7 +47,7 @@ public class LinkedList {
         last = newNode;
         size++;
     }
-
+    
     public void addBefore(String key, String data) {
         Node newNode = new Node(data);
         Node current = first;
@@ -57,9 +55,9 @@ public class LinkedList {
             current = current.next;
         }
         if (current == null) {
-            last.next = newNode;
-            newNode.prev = last;
-            newNode.next = null;
+            addLast(data);
+        } else if (current.prev == null) {
+            addFirst(data);
         } else {
             current.prev.next = newNode;
             newNode.prev = current.prev;

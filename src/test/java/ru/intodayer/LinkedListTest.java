@@ -33,6 +33,7 @@ class LinkedListTest {
         assertEquals(linkedList.getFirst(), null);
         assertEquals(linkedList.getLast(), null);
     }
+
     @Test
     void toArray() {
         String expected[] = {"Butch", "Mia", "Jules", "Vincent"};
@@ -110,8 +111,18 @@ class LinkedListTest {
         linkedList.addFirst("Iron Man");
         linkedList.addFirst("Spider-Man");
 
-        /* test1 */
+        /* test1: delete from the "middle" */
         assertEquals("Hulk", linkedList.delete("Hulk").getData());
+
+        /* test2: checking of next/prev links */
+        checkLinks(linkedList);
+
+        /* test3: delete while list is not empty */
+        while (!linkedList.isEmpty()) {
+            linkedList.delete(linkedList.getFirst().getData());
+        }
+        assertEquals(linkedList.getFirst(), null);
+        assertEquals(linkedList.getLast(), null);
     }
 
     @Test
@@ -124,19 +135,26 @@ class LinkedListTest {
 
         /* test1 */
         assertEquals("Spider-man", linkedList.getFirst().getData());
-
-        /* test2: checking of next/prev links */
-        checkLinks(linkedList);
     }
 
     @Test
     void addBefore() {
+        String expected[] = {"Iron Man", "Spider Man", "Hulk", "Thor"};
         LinkedList linkedList = new LinkedList();
         linkedList.addFirst("Thor");
-        linkedList.addFirst("Hulk");
+
+        /* test1: with 1 node [Thor]*/
+        linkedList.addBefore("Thor", "Hulk");
+        assertEquals("Hulk", linkedList.getFirst().getData());
+
         linkedList.addFirst("Iron Man");
 
-        linkedList.addBefore("Iron Man","Spider-Man");
+        /* test2: add in the "middle" [Iron Man][Hulk][Thor]*/
+        linkedList.addBefore("Hulk","Spider-Man");
+        assertArrayEquals(expected, linkedList.toArray());
+
+        /* test3: checking of next/prev links */
+        checkLinks(linkedList);
     }
 
 }

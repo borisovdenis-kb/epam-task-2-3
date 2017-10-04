@@ -10,7 +10,8 @@ public class App {
 
 
         while (true) {
-            System.out.print("1-add first, 2-add last, 3-add before, 4-delete first, 5-delete last, 6-delete: ");
+            System.out.print("1-add first, 2-add last, 3-add before, 4-delete first, " +
+                            "5-delete last, 6-delete, 7-clear: ");
             switch (in.nextInt()) {
             case 1:
                 System.out.print(": ");
@@ -37,6 +38,8 @@ public class App {
                 System.out.print(": ");
                 linkedList.delete(in.next());
                 break;
+            case 7:
+                linkedList.clear();
             }
             System.out.println(linkedList);
         }

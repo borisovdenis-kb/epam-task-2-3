@@ -140,35 +140,25 @@ public class LinkedList<T> implements Iterable<T> {
         return array;
     }
 
-    public Iterator<T> iterator() {
-        return new LinkedListIterator();
-    }
+    public LinkedList<T> map(MapInterface<T> mapInterface) {
+        LinkedList<T> newList = new LinkedList<T>(condition);
+        Iterator<T> itr = this.iterator();
 
-    public Iterator<Node<T>> firstIterator() {
-        return new FirstIterator();
-    }
-
-    @Override
-    public String toString() {
-        if (isEmpty()) {
-            return "[]";
+        while (itr.hasNext()) {
+            T next = mapInterface.map(itr.next());
+            newList.addLast(next);
         }
-        StringBuilder stringBuilder = new StringBuilder("null<--");
-        for (Node<T> x = first; x != null; x = x.next) {
-            stringBuilder.append("[" + x.getData().toString() + "]");
-            if (x.next == null) {
-                stringBuilder.append("-->null");
-            } else {
-                stringBuilder.append("<-->");
-            }
-        }
-        return stringBuilder.toString();
+
+        return newList;
     }
 
-    class FirstIterator implements Iterator<Node<T>> {
+    /**
+     * Is needed inside FilteredIterator.
+     */
+    private class InternalIterator implements Iterator<Node<T>> {
         private Node<T> current;
 
-        public FirstIterator() {
+        public InternalIterator() {
             this.current = getFirst();
         }
 
@@ -184,14 +174,15 @@ public class LinkedList<T> implements Iterable<T> {
             current = current.next;
             return tmp;
         }
+
     }
 
-    class LinkedListIterator implements Iterator<T> {
+    private class FilteredIterator implements Iterator<T> {
         private Iterator<Node<T>> itr;
         private Node<T> tmp;
 
-        public LinkedListIterator() {
-            this.itr = firstIterator();
+        public FilteredIterator() {
+            this.itr = internalIterator();
         }
 
         public boolean hasNext() {
@@ -211,5 +202,30 @@ public class LinkedList<T> implements Iterable<T> {
             }
             return tmp.getData();
         }
+    }
+
+    public Iterator<T> iterator() {
+        return new FilteredIterator();
+    }
+
+    private Iterator<Node<T>> internalIterator() {
+        return new InternalIterator();
+    }
+
+    @Override
+    public String toString() {
+        if (isEmpty()) {
+            return "[]";
+        }
+        StringBuilder stringBuilder = new StringBuilder("null<--");
+        for (Node<T> x = first; x != null; x = x.next) {
+            stringBuilder.append("[" + x.getData().toString() + "]");
+            if (x.next == null) {
+                stringBuilder.append("-->null");
+            } else {
+                stringBuilder.append("<-->");
+            }
+        }
+        return stringBuilder.toString();
     }
 }

@@ -11,15 +11,17 @@ public class App {
             List<Integer> notAllowed = Arrays.asList(array);
             return notAllowed.contains(x);
         };
+        MapInterface<Integer> toSquare = (x) -> x * x;
+
         LinkedList<Integer> linkedList = new LinkedList<>(condition);
         Scanner in = new Scanner(System.in);
 
         while (true) {
             System.out.print("1-add first, 2-add last, 3-add before, 4-delete first, " +
-                            "5-delete last, 6-delete, 7-clear, 8-iterator: ");
+                            "5-delete last, 6-delete, 7-clear, 8-iterator, 9-map, (-1)-stop: ");
 
             int decision = in.nextInt();
-            if (decision == 100500) break;
+            if (decision == -1) break;
 
             switch (decision) {
             case 1:
@@ -55,10 +57,14 @@ public class App {
                     System.out.println(itr.next());
                 }
                 break;
+            case 9:
+                LinkedList<Integer> mappedList = linkedList.map(toSquare);
+                System.out.println("Mapped list: " + mappedList);
+                break;
             default:
                 break;
             }
-            System.out.println(linkedList);
+            System.out.println("Original list" + linkedList);
         }
 
 

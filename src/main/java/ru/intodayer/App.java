@@ -64,9 +64,7 @@ public class App {
             default:
                 break;
             }
-            System.out.println("Original list" + linkedList);
+            System.out.println("Original list: " + linkedList);
         }
-
-
     }
 }

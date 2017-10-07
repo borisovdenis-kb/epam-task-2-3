@@ -1,9 +1,9 @@
 package ru.intodayer;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
+
 
 public class LinkedList<T> implements Iterable<T> {
     private Node<T> first;
@@ -131,15 +131,6 @@ public class LinkedList<T> implements Iterable<T> {
         last = null;
     }
 
-    public ArrayList<T> toArray() {
-        ArrayList<T> array = new ArrayList<T>();
-        int i = 0;
-        for (Node<T> x = first; x != null; x = x.next) {
-            array.add(x.getData());
-        }
-        return array;
-    }
-
     public LinkedList<T> map(MapInterface<T> mapInterface) {
         LinkedList<T> newList = new LinkedList<T>(condition);
         Iterator<T> itr = this.iterator();
@@ -179,13 +170,20 @@ public class LinkedList<T> implements Iterable<T> {
 
     private class FilteredIterator implements Iterator<T> {
         private Iterator<Node<T>> itr;
-        private Node<T> tmp;
+        private Node<T> curNode;
 
         public FilteredIterator() {
             this.itr = internalIterator();
         }
 
         public boolean hasNext() {
+            if (curNode != null) {
+                Node<T> tmp = curNode.next;
+                while (tmp != null && condition.test(tmp.getData())) {
+                    tmp = tmp.next;
+                }
+                return !(tmp == null);
+            }
             return itr.hasNext();
         }
 
@@ -193,14 +191,14 @@ public class LinkedList<T> implements Iterable<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            tmp = itr.next();
-            while (condition.test(tmp.getData())) {
-                if (tmp.next == null) {
-                    return null;
-                }
-                tmp = itr.next();
+            curNode = itr.next();
+            while (condition.test(curNode.getData())) {
+//                if (next.next == null) {
+//                    return null;
+//                }
+                curNode = itr.next();
             }
-            return tmp.getData();
+            return curNode.getData();
         }
     }
 

@@ -1,14 +1,18 @@
 package ru.intodayer;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.Predicate;
 
 
 class LinkedListTest {
-    private final Predicate<String> conditionStr = (x) -> x.equals("<epam>");
-    private final Predicate<Integer> conditionInt = (x) -> x.equals(5);
+    private final Predicate<String> conditionStr = (x) -> x.equals("<epam>");   // default predicates for testing method
+    private final Predicate<Integer> conditionInt = (x) -> x.equals(5);         // such as add/delete/clear/toArray
 
     private void checkLinks(LinkedList<?> linkedList) {
         /* check of next links */
@@ -26,8 +30,57 @@ class LinkedListTest {
         }
     }
 
+    private <T> void checkContentIsEquals(T[] expected, LinkedList<T> actual) {
+        assertEquals(1, 2);
+//        Iterator<T> itr = actual.iterator();
+//        int i = 0;
+//        while (itr.hasNext()) {
+//            T tmp = itr.next();
+//            if (!tmp.equals(expected[i])) {
+//                assertEquals(expected[i], tmp);
+//            }
+//            i++;
+//        }
+    }
+
     @Test
-    void clear() {
+    void testIterator() {
+        Predicate<Integer> conditionOne = (x) -> {
+            Integer[] array = {1, 5, 9};
+            List<Integer> notAllowed = Arrays.asList(array);
+            return notAllowed.contains(x);
+        };
+        Predicate<String> conditionTwo = (x) -> {
+            String[] array = {"PHP", "ObjectiveC", "Haskel"};
+            List<String> notAllowed = Arrays.asList(array);
+            return notAllowed.contains(x);
+        };
+        LinkedList<Integer> listOne = new LinkedList<>(conditionOne);
+        LinkedList<String> listTwo = new LinkedList<>(conditionTwo);
+
+        Integer[] expectedOne = {2, 3, 8};
+        listOne.addLast(1);
+        listOne.addLast(2);
+        listOne.addLast(3);
+        listOne.addLast(5);
+        listOne.addLast(8);
+        listOne.addLast(9);
+        checkContentIsEquals(expectedOne, listOne);
+
+        String[] expectedTwo = {"Java", "Puthon", "JS"};
+        listTwo.addLast("Java");
+        listTwo.addLast("Python");
+        listTwo.addLast("PHP");
+        listTwo.addLast("PHP");
+        listTwo.addLast("ObjectiveC");
+        listTwo.addLast("Haskel");
+        listTwo.addLast("JS");
+        listTwo.addLast("PHP");
+        checkContentIsEquals(expectedTwo, listTwo);
+    }
+
+    @Test
+    void testClear() {
         LinkedList<String> linkedList = new LinkedList<>(conditionStr);
         linkedList.addFirst("A");
         linkedList.addFirst("B");
@@ -68,7 +121,7 @@ class LinkedListTest {
     }
 
     @Test
-    void deleteFirst() {
+    void testDeleteFirst() {
         LinkedList<String> One = new LinkedList<String>(conditionStr);
         One.addFirst("Frodo");
         One.addFirst("Aragorn");
@@ -97,7 +150,7 @@ class LinkedListTest {
     }
 
     @Test
-    void deleteLast() {
+    void testDeleteLast() {
         LinkedList<String> One = new LinkedList<>(conditionStr);
         One.addFirst("Frodo");
         One.addFirst("Aragorn");
@@ -126,7 +179,7 @@ class LinkedListTest {
     }
 
     @Test
-    void delete() {
+    void testDelete() {
         LinkedList<String> linkedList = new LinkedList<>(conditionStr);
         linkedList.addFirst("Thor");
         linkedList.addFirst("Hulk");
@@ -148,7 +201,7 @@ class LinkedListTest {
     }
 
     @Test
-    void addFirst() {
+    void testAddFirst() {
         LinkedList<String> listOne = new LinkedList<>(conditionStr);
         listOne.addFirst("Thor");
         listOne.addFirst("Hulk");
@@ -158,7 +211,7 @@ class LinkedListTest {
     }
 
     @Test
-    void addBefore() {
+    void testAddBefore() {
         LinkedList<String> linkedList = new LinkedList<>(conditionStr);
         linkedList.addFirst("Thor");
 
@@ -174,5 +227,4 @@ class LinkedListTest {
         assertEquals("Tanos", linkedList.getFirst().getData());
         checkLinks(linkedList);
     }
-
 }

@@ -1,6 +1,6 @@
 package ru.intodayer;
 
 
-public interface MapInterface<T> {
-    T map(T element);
+public interface MapInterface<T, E> {
+    E map(T element);
 }

@@ -11,12 +11,23 @@ public class LinkedList<T> implements Iterable<T> {
     private Predicate<T> condition;
     private int size;
 
+    public LinkedList() {
+    }
+
     public LinkedList(Predicate<T> condition) {
         this.condition = condition;
     }
 
     public boolean isEmpty() {
         return first == null;
+    }
+
+    public void setCondition(Predicate<T> condition) {
+        this.condition = condition;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public Node<T> getFirst() {
@@ -122,21 +133,17 @@ public class LinkedList<T> implements Iterable<T> {
         return null;
     }
 
-    public int getSize() {
-        return size;
-    }
-
     public void clear() {
         first = null;
         last = null;
     }
 
-    public LinkedList<T> map(MapInterface<T> mapInterface) {
-        LinkedList<T> newList = new LinkedList<T>(condition);
+    public <E> LinkedList<E> map(MapInterface<T, E> mapInterface) {
+        LinkedList<E> newList = new LinkedList<>();
         Iterator<T> itr = this.iterator();
 
         while (itr.hasNext()) {
-            T next = mapInterface.map(itr.next());
+            E next = mapInterface.map(itr.next());
             newList.addLast(next);
         }
 
@@ -144,12 +151,12 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     /**
-     * Is needed inside FilteredIterator.
+     * Is needed inside FilteredIterator. And SimpleIterator.
      */
-    private class InternalIterator implements Iterator<Node<T>> {
+    private class UtilityIterator implements Iterator<Node<T>> {
         private Node<T> current;
 
-        public InternalIterator() {
+        public UtilityIterator() {
             this.current = getFirst();
         }
 
@@ -165,7 +172,22 @@ public class LinkedList<T> implements Iterable<T> {
             current = current.next;
             return tmp;
         }
+    }
 
+    private class SimpleIterator implements Iterator<T> {
+        private Iterator<Node<T>> itr;
+
+        public SimpleIterator() {
+            this.itr = utilityIterator();
+        }
+
+        public boolean hasNext() {
+            return itr.hasNext();
+        }
+
+        public T next() {
+            return itr.next().getData();
+        }
     }
 
     private class FilteredIterator implements Iterator<T> {
@@ -173,7 +195,7 @@ public class LinkedList<T> implements Iterable<T> {
         private Node<T> curNode;
 
         public FilteredIterator() {
-            this.itr = internalIterator();
+            this.itr = utilityIterator();
         }
 
         public boolean hasNext() {
@@ -193,9 +215,6 @@ public class LinkedList<T> implements Iterable<T> {
             }
             curNode = itr.next();
             while (condition.test(curNode.getData())) {
-//                if (next.next == null) {
-//                    return null;
-//                }
                 curNode = itr.next();
             }
             return curNode.getData();
@@ -203,11 +222,15 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     public Iterator<T> iterator() {
-        return new FilteredIterator();
+        if (condition == null) {
+            return new SimpleIterator();
+        } else {
+            return new FilteredIterator();
+        }
     }
 
-    private Iterator<Node<T>> internalIterator() {
-        return new InternalIterator();
+    private Iterator<Node<T>> utilityIterator() {
+        return new UtilityIterator();
     }
 
     @Override
@@ -215,14 +238,10 @@ public class LinkedList<T> implements Iterable<T> {
         if (isEmpty()) {
             return "[]";
         }
-        StringBuilder stringBuilder = new StringBuilder("null<--");
+        StringBuilder stringBuilder = new StringBuilder();
         for (Node<T> x = first; x != null; x = x.next) {
             stringBuilder.append("[" + x.getData().toString() + "]");
-            if (x.next == null) {
-                stringBuilder.append("-->null");
-            } else {
-                stringBuilder.append("<-->");
-            }
+            stringBuilder.append(x.next != null ? "-" : "");
         }
         return stringBuilder.toString();
     }

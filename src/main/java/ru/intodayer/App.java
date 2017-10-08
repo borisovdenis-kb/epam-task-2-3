@@ -11,7 +11,12 @@ public class App {
             List<Integer> notAllowed = Arrays.asList(array);
             return notAllowed.contains(x);
         };
-        MapInterface<Integer> toSquare = (x) -> x * x;
+        MapInterface<Integer> toSquare = new MapInterface<Integer>() {
+            @Override
+            public Integer map(Integer element) {
+                return element * element;
+            }
+        };
 
         LinkedList<Integer> linkedList = new LinkedList<>(condition);
         Scanner in = new Scanner(System.in);

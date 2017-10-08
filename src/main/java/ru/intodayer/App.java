@@ -1,8 +1,9 @@
 package ru.intodayer;
 
-
 import java.util.*;
+import java.util.Scanner;
 import java.util.function.Predicate;
+
 
 public class App {
     public static void showUserInterface() {
@@ -13,9 +14,35 @@ public class App {
             "3 - add before\n"   + "4 - delete first\n" +
             "5 - delete last\n"  + "6 - delete\n" +
             "7 - clear\n"        + "8 - iterator\n" +
-            "9 - map\n"          + "stop - break a cycle\n\n" +
+            "9 - map\n"          + "10 - reduce\n" +
+            "stop - break a cycle\n\n" +
             "Choose operation: "
         );
+    }
+
+    private static <T> void showIteratorWork(LinkedList<T> list) {
+        Iterator<T> itr = list.iterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
+    }
+
+    private static void addElements(LinkedList<Integer> list, boolean addLast) {
+        Scanner in = new Scanner(System.in);
+        while (true) {
+            System.out.print(": ");
+            String s = in.next();
+
+            if (s.equals("stop")) {
+                break;
+            }
+
+            if (addLast) {
+                list.addLast(Integer.parseInt(s));
+            } else {
+                list.addFirst(Integer.parseInt(s));
+            }
+        }
     }
 
     public static void main(String args[]) {
@@ -30,8 +57,14 @@ public class App {
                 return String.valueOf(element) + "#";
             }
         };
+        ReduceInterface<Integer> sum = new ReduceInterface<Integer>() {
+            @Override
+            public Integer reduce(Integer x, Integer y) {
+                return x + y;
+            }
+        };
 
-        LinkedList<Integer> linkedList = new LinkedList<Integer>(filter);
+        LinkedList<Integer> list = new LinkedList<>(filter);
         Scanner in = new Scanner(System.in);
 
         while (true) {
@@ -42,47 +75,48 @@ public class App {
 
             switch (decision) {
                 case "1":
-                    System.out.print(": ");
-                    linkedList.addFirst(in.nextInt());
+                    addElements(list,false);
                     break;
                 case "2":
-                    System.out.print(": ");
-                    linkedList.addLast(in.nextInt());
+                    addElements(list,true);
                     break;
                 case "3":
                     System.out.print(": ");
                     Integer key = in.nextInt();
                     System.out.print(": ");
                     Integer data = in.nextInt();
-                    linkedList.addBefore(key, data);
+                    list.addBefore(key, data);
                     break;
                 case "4":
-                    linkedList.deleteFirst();
+                    list.deleteFirst();
                     break;
                 case "5":
-                    linkedList.deleteLast();
+                    list.deleteLast();
                     break;
                 case "6":
                     System.out.print(": ");
-                    linkedList.delete(in.nextInt());
+                    list.delete(in.nextInt());
                     break;
                 case "7":
-                    linkedList.clear();
+                    list.clear();
                 case "8":
-                    Iterator<Integer> itr = linkedList.iterator();
-                    while (itr.hasNext()) {
-                        System.out.println(itr.next());
+                    try {
+                        showIteratorWork(list);
+                    } catch (NoSuchElementException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case "9":
-                    LinkedList<String> mappedList = linkedList.map(toString);
+                    LinkedList<String> mappedList = list.map(toString);
                     System.out.println("Mapped list: " + mappedList);
                     break;
+                case "10":
+                    System.out.println(list.reduce(sum));
                 default:
                     break;
             }
             System.out.println();
-            System.out.println(linkedList);
+            System.out.println(list);
             System.out.println();
         }
     }

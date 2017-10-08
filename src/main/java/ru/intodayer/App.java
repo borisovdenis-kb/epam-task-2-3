@@ -19,11 +19,11 @@ public class App {
     }
 
     public static void main(String args[]) {
-        Predicate<Integer> condition = (x) -> {
-            Integer[] array = {1, 5, 9};
-            List<Integer> notAllowed = Arrays.asList(array);
-            return notAllowed.contains(x);
-        };
+//        Predicate<Integer> condition = (x) -> {
+//            Integer[] array = {1, 5, 9};
+//            List<Integer> notAllowed = Arrays.asList(array);
+//            return notAllowed.contains(x);
+//        };
         MapInterface<Integer, String> toString = new MapInterface<Integer, String>() {
             @Override
             public String map(Integer element) {
@@ -31,7 +31,7 @@ public class App {
             }
         };
 
-        LinkedList<Integer> linkedList = new LinkedList<>();
+        LinkedList<Integer> linkedList = new LinkedList<Integer>();
         Scanner in = new Scanner(System.in);
 
         while (true) {

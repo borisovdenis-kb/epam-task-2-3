@@ -139,7 +139,7 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     public <E> LinkedList<E> map(MapInterface<T, E> mapInterface) {
-        LinkedList<E> newList = new LinkedList<>();
+        LinkedList<E> newList = new LinkedList<E>();
         Iterator<T> itr = this.iterator();
 
         while (itr.hasNext()) {

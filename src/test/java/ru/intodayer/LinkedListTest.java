@@ -1,9 +1,7 @@
 package ru.intodayer;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -11,9 +9,6 @@ import java.util.function.Predicate;
 
 
 class LinkedListTest {
-    private final Predicate<String> conditionStr = (x) -> x.equals("<epam>");   // default predicates for testing method
-    private final Predicate<Integer> conditionInt = (x) -> x.equals(5);         // such as add/delete/clear/toArray
-
     private void checkLinks(LinkedList<?> linkedList) {
         /* check of next links */
         try {
@@ -43,45 +38,46 @@ class LinkedListTest {
 //        }
     }
 
-    @Test
-    void testIterator() {
-        Predicate<Integer> conditionOne = (x) -> {
-            Integer[] array = {1, 5, 9};
-            List<Integer> notAllowed = Arrays.asList(array);
-            return notAllowed.contains(x);
-        };
-        Predicate<String> conditionTwo = (x) -> {
-            String[] array = {"PHP", "ObjectiveC", "Haskel"};
-            List<String> notAllowed = Arrays.asList(array);
-            return notAllowed.contains(x);
-        };
-        LinkedList<Integer> listOne = new LinkedList<>(conditionOne);
-        LinkedList<String> listTwo = new LinkedList<>(conditionTwo);
 
-        Integer[] expectedOne = {2, 3, 8};
-        listOne.addLast(1);
-        listOne.addLast(2);
-        listOne.addLast(3);
-        listOne.addLast(5);
-        listOne.addLast(8);
-        listOne.addLast(9);
-        checkContentIsEquals(expectedOne, listOne);
-
-        String[] expectedTwo = {"Java", "Puthon", "JS"};
-        listTwo.addLast("Java");
-        listTwo.addLast("Python");
-        listTwo.addLast("PHP");
-        listTwo.addLast("PHP");
-        listTwo.addLast("ObjectiveC");
-        listTwo.addLast("Haskel");
-        listTwo.addLast("JS");
-        listTwo.addLast("PHP");
-        checkContentIsEquals(expectedTwo, listTwo);
-    }
+//    @Test
+//    void testIterator() {
+//        Predicate<Integer> conditionOne = (x) -> {
+//            Integer[] array = {1, 5, 9};
+//            List<Integer> notAllowed = Arrays.asList(array);
+//            return notAllowed.contains(x);
+//        };
+//        Predicate<String> conditionTwo = (x) -> {
+//            String[] array = {"PHP", "ObjectiveC", "Haskel"};
+//            List<String> notAllowed = Arrays.asList(array);
+//            return notAllowed.contains(x);
+//        };
+//        LinkedList<Integer> listOne = new LinkedList<Integer>(conditionOne);
+//        LinkedList<String> listTwo = new LinkedList<String>(conditionTwo);
+//
+//        Integer[] expectedOne = {2, 3, 8};
+//        listOne.addLast(1);
+//        listOne.addLast(2);
+//        listOne.addLast(3);
+//        listOne.addLast(5);
+//        listOne.addLast(8);
+//        listOne.addLast(9);
+//        checkContentIsEquals(expectedOne, listOne);
+//
+//        String[] expectedTwo = {"Java", "Puthon", "JS"};
+//        listTwo.addLast("Java");
+//        listTwo.addLast("Python");
+//        listTwo.addLast("PHP");
+//        listTwo.addLast("PHP");
+//        listTwo.addLast("ObjectiveC");
+//        listTwo.addLast("Haskel");
+//        listTwo.addLast("JS");
+//        listTwo.addLast("PHP");
+//        checkContentIsEquals(expectedTwo, listTwo);
+//    }
 
     @Test
     void testClear() {
-        LinkedList<String> linkedList = new LinkedList<>(conditionStr);
+        LinkedList<String> linkedList = new LinkedList<String>();
         linkedList.addFirst("A");
         linkedList.addFirst("B");
         linkedList.addFirst("C");
@@ -94,7 +90,7 @@ class LinkedListTest {
     @Test
     void testDifferentTypes() {
         /* test #1: with String */
-        LinkedList<String> stringList = new LinkedList<>(conditionStr);
+        LinkedList<String> stringList = new LinkedList<String>();
         stringList.addFirst("A");
         stringList.addLast("B");
         stringList.addBefore("B", "C");
@@ -107,7 +103,7 @@ class LinkedListTest {
         assertEquals(null, stringList.getLast());
 
         /* test #2: with Integer */
-        LinkedList<Integer> integerList = new LinkedList<Integer>(conditionInt);
+        LinkedList<Integer> integerList = new LinkedList<Integer>();
         integerList.addFirst(1);
         integerList.addLast(2);
         integerList.addBefore(2, 3);
@@ -122,7 +118,7 @@ class LinkedListTest {
 
     @Test
     void testDeleteFirst() {
-        LinkedList<String> One = new LinkedList<String>(conditionStr);
+        LinkedList<String> One = new LinkedList<String>();
         One.addFirst("Frodo");
         One.addFirst("Aragorn");
         One.addFirst("Gandalf");
@@ -144,14 +140,14 @@ class LinkedListTest {
         assertEquals(null, One.getLast());
 
         // test4: lack of NullPointerException
-        LinkedList<String> Two = new LinkedList<>(conditionStr);
+        LinkedList<String> Two = new LinkedList<String>();
         Two.addFirst("Frodo");
         Two.deleteFirst();
     }
 
     @Test
     void testDeleteLast() {
-        LinkedList<String> One = new LinkedList<>(conditionStr);
+        LinkedList<String> One = new LinkedList<String>();
         One.addFirst("Frodo");
         One.addFirst("Aragorn");
         One.addFirst("Gandalf");
@@ -173,14 +169,14 @@ class LinkedListTest {
         assertEquals(null, One.getLast());
 
         // test4: lack of NullPointerException
-        LinkedList<String> Two = new LinkedList<>(conditionStr);
+        LinkedList<String> Two = new LinkedList<String>();
         Two.addFirst("Frodo");
         Two.deleteLast();
     }
 
     @Test
     void testDelete() {
-        LinkedList<String> linkedList = new LinkedList<>(conditionStr);
+        LinkedList<String> linkedList = new LinkedList<String>();
         linkedList.addFirst("Thor");
         linkedList.addFirst("Hulk");
         linkedList.addFirst("Iron Man");
@@ -202,7 +198,7 @@ class LinkedListTest {
 
     @Test
     void testAddFirst() {
-        LinkedList<String> listOne = new LinkedList<>(conditionStr);
+        LinkedList<String> listOne = new LinkedList<String>();
         listOne.addFirst("Thor");
         listOne.addFirst("Hulk");
         listOne.addFirst("Iron Man");
@@ -212,7 +208,7 @@ class LinkedListTest {
 
     @Test
     void testAddBefore() {
-        LinkedList<String> linkedList = new LinkedList<>(conditionStr);
+        LinkedList<String> linkedList = new LinkedList<String>();
         linkedList.addFirst("Thor");
 
         // test #1: with 1 node [Thor]

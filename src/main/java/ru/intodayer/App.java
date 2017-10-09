@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 public class App {
     public static void showUserInterface() {
         System.out.print(
-            "Now you are testing custom LinkedList.\n" +
+            "Now you are testing custom FilteredLinkedList.\n" +
             "Available operations:\n" +
             "1 - add first\n"    + "2 - add last\n" +
             "3 - add before\n"   + "4 - delete first\n" +
@@ -20,14 +20,14 @@ public class App {
         );
     }
 
-    private static <T> void showIteratorWork(LinkedList<T> list) {
+    private static <T> void showIteratorWork(FilteredLinkedList<T> list) {
         Iterator<T> itr = list.iterator();
         while (itr.hasNext()) {
             System.out.println(itr.next());
         }
     }
 
-    private static void addElements(LinkedList<Integer> list, boolean addLast) {
+    private static void addElements(FilteredLinkedList<Integer> list, boolean addLast) {
         Scanner in = new Scanner(System.in);
         while (true) {
             System.out.print(": ");
@@ -64,7 +64,7 @@ public class App {
             }
         };
 
-        LinkedList<Integer> list = new LinkedList<>(filter);
+        FilteredLinkedList<Integer> list = new FilteredLinkedList<>(filter);
         Scanner in = new Scanner(System.in);
 
         while (true) {
@@ -107,7 +107,7 @@ public class App {
                     }
                     break;
                 case "9":
-                    LinkedList<String> mappedList = list.map(toString);
+                    FilteredLinkedList<String> mappedList = list.map(toString);
                     System.out.println("Mapped list: " + mappedList);
                     break;
                 case "10":

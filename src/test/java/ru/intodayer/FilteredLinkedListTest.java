@@ -2,30 +2,26 @@ package ru.intodayer;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Predicate;
 
 
-class LinkedListTest {
-    private void checkLinks(LinkedList<?> linkedList) {
+class FilteredLinkedListTest {
+    private void checkLinks(FilteredLinkedList<?> filteredLinkedList) {
         /* check of next links */
         try {
-            for (Node<?> x = linkedList.getFirst(); x != null; x = x.next) ;
+            for (Node<?> x = filteredLinkedList.getFirst(); x != null; x = x.next) ;
         } catch (NullPointerException e) {
             throw new NullPointerException();
         }
 
         /* check of prev links */
         try {
-            for (Node<?> x = linkedList.getLast(); x != null; x = x.prev) ;
+            for (Node<?> x = filteredLinkedList.getLast(); x != null; x = x.prev) ;
         } catch (NullPointerException e) {
             throw new NullPointerException();
         }
     }
 
-    private <T> void checkContentIsEquals(T[] expected, LinkedList<T> actual) {
+    private <T> void checkContentIsEquals(T[] expected, FilteredLinkedList<T> actual) {
         assertEquals(1, 2);
 //        Iterator<T> itr = actual.iterator();
 //        int i = 0;
@@ -51,8 +47,8 @@ class LinkedListTest {
 //            List<String> notAllowed = Arrays.asList(array);
 //            return notAllowed.contains(x);
 //        };
-//        LinkedList<Integer> listOne = new LinkedList<Integer>(conditionOne);
-//        LinkedList<String> listTwo = new LinkedList<String>(conditionTwo);
+//        FilteredLinkedList<Integer> listOne = new FilteredLinkedList<Integer>(conditionOne);
+//        FilteredLinkedList<String> listTwo = new FilteredLinkedList<String>(conditionTwo);
 //
 //        Integer[] expectedOne = {2, 3, 8};
 //        listOne.addLast(1);
@@ -77,20 +73,20 @@ class LinkedListTest {
 
     @Test
     void testClear() {
-        LinkedList<String> linkedList = new LinkedList<String>();
-        linkedList.addFirst("A");
-        linkedList.addFirst("B");
-        linkedList.addFirst("C");
-        linkedList.addFirst("D");
-        linkedList.clear();
-        assertEquals(null, linkedList.getFirst());
-        assertEquals(null, linkedList.getLast());
+        FilteredLinkedList<String> filteredLinkedList = new FilteredLinkedList<String>();
+        filteredLinkedList.addFirst("A");
+        filteredLinkedList.addFirst("B");
+        filteredLinkedList.addFirst("C");
+        filteredLinkedList.addFirst("D");
+        filteredLinkedList.clear();
+        assertEquals(null, filteredLinkedList.getFirst());
+        assertEquals(null, filteredLinkedList.getLast());
     }
 
     @Test
     void testDifferentTypes() {
         /* test #1: with String */
-        LinkedList<String> stringList = new LinkedList<String>();
+        FilteredLinkedList<String> stringList = new FilteredLinkedList<String>();
         stringList.addFirst("A");
         stringList.addLast("B");
         stringList.addBefore("B", "C");
@@ -103,7 +99,7 @@ class LinkedListTest {
         assertEquals(null, stringList.getLast());
 
         /* test #2: with Integer */
-        LinkedList<Integer> integerList = new LinkedList<Integer>();
+        FilteredLinkedList<Integer> integerList = new FilteredLinkedList<Integer>();
         integerList.addFirst(1);
         integerList.addLast(2);
         integerList.addBefore(2, 3);
@@ -118,7 +114,7 @@ class LinkedListTest {
 
     @Test
     void testDeleteFirst() {
-        LinkedList<String> One = new LinkedList<String>();
+        FilteredLinkedList<String> One = new FilteredLinkedList<String>();
         One.addFirst("Frodo");
         One.addFirst("Aragorn");
         One.addFirst("Gandalf");
@@ -140,14 +136,14 @@ class LinkedListTest {
         assertEquals(null, One.getLast());
 
         // test4: lack of NullPointerException
-        LinkedList<String> Two = new LinkedList<String>();
+        FilteredLinkedList<String> Two = new FilteredLinkedList<String>();
         Two.addFirst("Frodo");
         Two.deleteFirst();
     }
 
     @Test
     void testDeleteLast() {
-        LinkedList<String> One = new LinkedList<String>();
+        FilteredLinkedList<String> One = new FilteredLinkedList<String>();
         One.addFirst("Frodo");
         One.addFirst("Aragorn");
         One.addFirst("Gandalf");
@@ -169,36 +165,36 @@ class LinkedListTest {
         assertEquals(null, One.getLast());
 
         // test4: lack of NullPointerException
-        LinkedList<String> Two = new LinkedList<String>();
+        FilteredLinkedList<String> Two = new FilteredLinkedList<String>();
         Two.addFirst("Frodo");
         Two.deleteLast();
     }
 
     @Test
     void testDelete() {
-        LinkedList<String> linkedList = new LinkedList<String>();
-        linkedList.addFirst("Thor");
-        linkedList.addFirst("Hulk");
-        linkedList.addFirst("Iron Man");
-        linkedList.addFirst("Spider-Man");
+        FilteredLinkedList<String> filteredLinkedList = new FilteredLinkedList<String>();
+        filteredLinkedList.addFirst("Thor");
+        filteredLinkedList.addFirst("Hulk");
+        filteredLinkedList.addFirst("Iron Man");
+        filteredLinkedList.addFirst("Spider-Man");
 
         // test #1: delete from the "middle"
-        assertEquals("Hulk", linkedList.delete("Hulk").getData());
+        assertEquals("Hulk", filteredLinkedList.delete("Hulk").getData());
 
         // test #2: checking of next/prev links
-        checkLinks(linkedList);
+        checkLinks(filteredLinkedList);
 
         // test #3: delete while list is not empty
-        while (!linkedList.isEmpty()) {
-            linkedList.delete(linkedList.getFirst().getData());
+        while (!filteredLinkedList.isEmpty()) {
+            filteredLinkedList.delete(filteredLinkedList.getFirst().getData());
         }
-        assertEquals(null, linkedList.getFirst());
-        assertEquals(null, linkedList.getLast());
+        assertEquals(null, filteredLinkedList.getFirst());
+        assertEquals(null, filteredLinkedList.getLast());
     }
 
     @Test
     void testAddFirst() {
-        LinkedList<String> listOne = new LinkedList<String>();
+        FilteredLinkedList<String> listOne = new FilteredLinkedList<String>();
         listOne.addFirst("Thor");
         listOne.addFirst("Hulk");
         listOne.addFirst("Iron Man");
@@ -208,19 +204,19 @@ class LinkedListTest {
 
     @Test
     void testAddBefore() {
-        LinkedList<String> linkedList = new LinkedList<String>();
-        linkedList.addFirst("Thor");
+        FilteredLinkedList<String> filteredLinkedList = new FilteredLinkedList<String>();
+        filteredLinkedList.addFirst("Thor");
 
         // test #1: with 1 node [Thor]
-        linkedList.addBefore("Thor", "Hulk");
-        assertEquals("Hulk", linkedList.getFirst().getData());
+        filteredLinkedList.addBefore("Thor", "Hulk");
+        assertEquals("Hulk", filteredLinkedList.getFirst().getData());
 
-        linkedList.clear();
+        filteredLinkedList.clear();
 
         // test #2: adds the same element as already existed
-        linkedList.addBefore("Tanos", "Tanos");
-        linkedList.addBefore("Tanos", "Tanos");
-        assertEquals("Tanos", linkedList.getFirst().getData());
-        checkLinks(linkedList);
+        filteredLinkedList.addBefore("Tanos", "Tanos");
+        filteredLinkedList.addBefore("Tanos", "Tanos");
+        assertEquals("Tanos", filteredLinkedList.getFirst().getData());
+        checkLinks(filteredLinkedList);
     }
 }

@@ -5,16 +5,16 @@ import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 
-public class LinkedList<T> implements Iterable<T> {
+public class FilteredLinkedList<T> implements Iterable<T> {
     private Node<T> first;
     private Node<T> last;
     private Predicate<T> condition;
     private int size;
 
-    public LinkedList() {
+    public FilteredLinkedList() {
     }
 
-    public LinkedList(Predicate<T> condition) {
+    public FilteredLinkedList(Predicate<T> condition) {
         this.condition = condition;
     }
 
@@ -138,8 +138,8 @@ public class LinkedList<T> implements Iterable<T> {
         last = null;
     }
 
-    public <E> LinkedList<E> map(MapInterface<T, E> mapInterface) {
-        LinkedList<E> newList = new LinkedList<>();
+    public <E> FilteredLinkedList<E> map(MapInterface<T, E> mapInterface) {
+        FilteredLinkedList<E> newList = new FilteredLinkedList<>();
         Iterator<T> itr = iterator();
 
         while (itr.hasNext()) {

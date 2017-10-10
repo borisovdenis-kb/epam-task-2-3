@@ -5,39 +5,40 @@ import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 
-public class FilteredLinkedList<T> implements Iterable<T> {
+public class FilteredLinkedList<T> implements CustomList<T>, Iterable<T> {
     private Node<T> first;
     private Node<T> last;
     private Predicate<T> condition;
     private int size;
 
-    public FilteredLinkedList() {
-    }
-
     public FilteredLinkedList(Predicate<T> condition) {
+        if (condition == null)
+            throw new IllegalArgumentException("Predicate can't be null.");
+
         this.condition = condition;
     }
 
+    @Override
     public boolean isEmpty() {
         return first == null;
     }
 
-    public void setCondition(Predicate<T> condition) {
-        this.condition = condition;
-    }
-
+    @Override
     public int getSize() {
         return size;
     }
 
+    @Override
     public Node<T> getFirst() {
         return first;
     }
 
+    @Override
     public Node<T> getLast() {
         return last;
     }
 
+    @Override
     public void addFirst(T data) {
         Node<T> newNode = new Node<T>(data);
         if (first == null) {
@@ -54,6 +55,7 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         size++;
     }
 
+    @Override
     public void addLast(T data) {
         Node<T> newNode = new Node<T>(data);
         if (last == null) {
@@ -70,6 +72,7 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         size++;
     }
 
+    @Override
     public void addBefore(T key, T data) {
         Node<T> newNode = new Node<T>(data);
         Node<T> current = first;
@@ -89,6 +92,7 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         size++;
     }
 
+    @Override
     public Node<T> deleteFirst() {
         Node<T> tmp = first;
         if (last == first) {
@@ -102,6 +106,7 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         return tmp;
     }
 
+    @Override
     public Node<T> deleteLast() {
         Node<T> tmp = last;
         if (last == first) {
@@ -115,6 +120,7 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         return tmp;
     }
 
+    @Override
     public Node<T> delete(T key) {
         for (Node<T> x = first; x != null; x = x.next) {
             if (x.getData().equals(key)) {
@@ -133,13 +139,14 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         return null;
     }
 
+    @Override
     public void clear() {
         first = null;
         last = null;
     }
 
     public <E> FilteredLinkedList<E> map(MapInterface<T, E> mapInterface) {
-        FilteredLinkedList<E> newList = new FilteredLinkedList<>();
+        FilteredLinkedList<E> newList = new FilteredLinkedList<>(x -> false);
         Iterator<T> itr = iterator();
 
         while (itr.hasNext()) {
@@ -196,6 +203,10 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         }
     }
 
+    private Iterator<Node<T>> utilityIterator() {
+        return new UtilityIterator();
+    }
+
     private class SimpleIterator implements Iterator<T> {
         private Iterator<Node<T>> itr;
 
@@ -243,16 +254,9 @@ public class FilteredLinkedList<T> implements Iterable<T> {
         }
     }
 
+    @Override
     public Iterator<T> iterator() {
-        if (condition == null) {
-            return new SimpleIterator();
-        } else {
-            return new FilteredIterator();
-        }
-    }
-
-    private Iterator<Node<T>> utilityIterator() {
-        return new UtilityIterator();
+        return new FilteredIterator();
     }
 
     @Override

@@ -1,7 +1,5 @@
 package ru.intodayer;
 
-import ru.intodayer.FilteredLinkedList;
-import ru.intodayer.CustomList;
 import java.util.function.Predicate;
 import java.util.Arrays;
 import java.util.List;
@@ -16,24 +14,6 @@ public class TestFilteredIterator {
         return filter;
     }
 
-    private <T> void assertEquals(T[] expected, CustomList<T> actual) {
-        int index = 0;
-        for (T x : (FilteredLinkedList<T>) actual) {
-            if (expected == null) {
-                if (x != null)
-                    throw new TestFailedException(
-                            TestFailedException.getMessage(null, x)
-                    );
-                return;
-            }
-            if (!x.equals(expected[index]))
-                throw new TestFailedException(
-                        TestFailedException.getMessage(expected[index], x)
-                );
-            index++;
-        }
-    }
-
     private void testCase1() {
         Predicate<String> filter = getPredicate("Haskel", "PHP", "Fortran");
         CustomList<String> list = new FilteredLinkedList<>(filter);
@@ -43,9 +23,7 @@ public class TestFilteredIterator {
         list.addLast("Haskel");
         list.addLast("Python");
         list.addLast("PHP");
-
-        String[] expected = {"Java", "C++", "Python"};
-        assertEquals(expected, list);
+        TestUtils.assertArraysEquals(new String[] {"Java", "C++", "Python"}, list);
     }
 
     private void testCase2() {
@@ -56,13 +34,12 @@ public class TestFilteredIterator {
         list.addLast(100);
         list.addLast(5);
         list.addLast(1);
-
-        assertEquals(null, list);
+        TestUtils.assertArraysEquals(null, list);
     }
 
     public void runTests() {
         testCase1();
         testCase2();
-        System.out.println("All tests are passed.");
+        System.out.println("All FilteredIterator tests are passed.");
     }
 }

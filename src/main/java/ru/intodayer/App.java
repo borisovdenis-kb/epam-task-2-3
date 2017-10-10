@@ -7,7 +7,9 @@ import java.util.function.Predicate;
 
 public class App {
     public static void main(String args[]) {
-        TestFilteredIterator test = new TestFilteredIterator();
-        test.runTests();
+        TestFilteredIterator test1 = new TestFilteredIterator();
+        test1.runTests();
+        TestMapReduce test2 = new TestMapReduce();
+        test2.runTests();
     }
 }

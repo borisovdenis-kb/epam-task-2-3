@@ -207,22 +207,6 @@ public class FilteredLinkedList<T> implements CustomList<T>, Iterable<T> {
         return new UtilityIterator();
     }
 
-    private class SimpleIterator implements Iterator<T> {
-        private Iterator<Node<T>> itr;
-
-        public SimpleIterator() {
-            this.itr = utilityIterator();
-        }
-
-        public boolean hasNext() {
-            return itr.hasNext();
-        }
-
-        public T next() {
-            return itr.next().getData();
-        }
-    }
-
     private class FilteredIterator implements Iterator<T> {
         private Iterator<Node<T>> itr;
         private Node<T> curNode;
@@ -248,7 +232,11 @@ public class FilteredLinkedList<T> implements CustomList<T>, Iterable<T> {
             }
             curNode = itr.next();
             while (condition.test(curNode.getData())) {
-                curNode = itr.next();
+                try {
+                    curNode = itr.next();
+                } catch (NoSuchElementException e) {
+                    return null;
+                }
             }
             return curNode.getData();
         }
